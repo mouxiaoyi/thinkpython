@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 import os, sys
-import threading, time
+import threading, Queue
+import time
 
 class Worker(threading.Thread):
     def __init__(self):
@@ -15,15 +16,14 @@ class Worker(threading.Thread):
         time.sleep(1)
 
 def main(args):
-    threads = []
+    threads = Queue.Queue(10)
     for i in range(10):
         t = Worker()
         t.setDaemon(True)
-        threads.append(t)
+        threads.put(t)
         t.start()
 
-    for thread in threads:
-        thread.join()
+    threads.join()
 
 if __name__ == '__main__':
     main(sys.argv)
