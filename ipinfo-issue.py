@@ -3,11 +3,12 @@
 
 # modify the content before login the system. this example show the hostname,interface/ip/mac.
 # excute this script in /etc/rc.local while bootup.
-# 
+#
 
 import sys, commands
 
-sys.stdout = open('/etc/issue', 'write')
+f = open('/etc/issue', 'write')
+sys.stdout = f
 
 HOSTNAME = commands.getoutput('hostname')
 print('Welcome to %s.' % HOSTNAME )
@@ -32,5 +33,9 @@ for port in ports:
     if ipaddr and macaddr:
         print('    Interface: %s, ip address: %s, mac address: %s.'\
             % ( port, ipaddr, macaddr ))
-        
+
 print('\nAnything else, please contact the company for professional service.')
+f.close()
+
+sys.stdout = sys.__stdout__
+
